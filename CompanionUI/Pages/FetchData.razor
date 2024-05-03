@@ -1,0 +1,22 @@
+@page "/fetchdata"
+@using CompanionData.Repositories
+@using CompanionDomain.Models
+
+@inject ITraitRepository TraitRepository
+
+<h1>Trait List</h1>
+
+@foreach(var trait in Traits)
+{
+    <p>@trait.Name</p>
+}
+
+@code {
+    private IEnumerable<Trait> Traits;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Traits = await TraitRepository.GetAllTraitsAsync();
+    }
+
+}

@@ -2,7 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanionUI", "CompanionUI\CompanionUI.csproj", "{2598A64B-A591-4613-A044-ACBDB0F88973}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanionResources", "CompanionResources\CompanionResources.csproj", "{FB0D9504-35FA-4C65-9A02-C26D5EEBB959}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanionDomain", "CompanionDomain\CompanionDomain.csproj", "{FB0D9504-35FA-4C65-9A02-C26D5EEBB959}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanionTests", "CompanionTests\CompanionTests.csproj", "{513E0D67-C692-4EF1-992C-4E4980D02846}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanionData", "CompanionData\CompanionData.csproj", "{A02DBDEE-BB71-443E-A817-3F3661B7E53A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +22,13 @@ Global
 		{FB0D9504-35FA-4C65-9A02-C26D5EEBB959}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB0D9504-35FA-4C65-9A02-C26D5EEBB959}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB0D9504-35FA-4C65-9A02-C26D5EEBB959}.Release|Any CPU.Build.0 = Release|Any CPU
+		{513E0D67-C692-4EF1-992C-4E4980D02846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513E0D67-C692-4EF1-992C-4E4980D02846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513E0D67-C692-4EF1-992C-4E4980D02846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513E0D67-C692-4EF1-992C-4E4980D02846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A02DBDEE-BB71-443E-A817-3F3661B7E53A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A02DBDEE-BB71-443E-A817-3F3661B7E53A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A02DBDEE-BB71-443E-A817-3F3661B7E53A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A02DBDEE-BB71-443E-A817-3F3661B7E53A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
