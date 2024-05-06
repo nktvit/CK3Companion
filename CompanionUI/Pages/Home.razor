@@ -1,5 +1,29 @@
 ﻿@page "/"
+@using CompanionData
+@using CompanionDomain.Models
+@inject TraitService TraitService
 
-<PageTitle>Home</PageTitle>
+<h3>Traits</h3>
 
-<h1>Hello, world!</h1>
+@if (traits == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var trait in traits)
+        {
+            <li>@trait.Name</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<Trait> traits;
+
+    protected override async Task OnInitializedAsync()
+    {
+        traits = await TraitService.GetAllTraits();
+    }
+}
