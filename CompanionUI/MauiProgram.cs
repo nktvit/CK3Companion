@@ -1,18 +1,16 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using CompanionData;
 using CompanionData.Repositories;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 
 
 namespace CompanionUI;
 
 public class MauiProgram
 {
-    private static ILogger<MauiProgram> Logger { get; set; }
-
+    private static Logger _logger = ConfigureLogging();
     public static async Task<MauiApp> CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
@@ -24,8 +22,6 @@ public class MauiProgram
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
-        // Configure logging
-        ConfigureLogging(builder);
 #endif
 
 
@@ -33,37 +29,44 @@ public class MauiProgram
         var filePermission = await Permissions.RequestAsync<Permissions.StorageRead>();
         if (filePermission != PermissionStatus.Granted)
         {
-            Logger.LogError("File system permissions denied.");
+            _logger.Warn("File system permissions denied.");
             // Handle the permission denial or show an error message
             return builder.Build();
         }
 
         // Register the DatabaseRepository service
-        RegisterDatabaseServices(builder.Services, Logger);
+        RegisterDatabaseServices(builder.Services);
 
         return builder.Build();
     }
 
-    private static void ConfigureLogging(MauiAppBuilder builder)
+    private static Logger ConfigureLogging()
     {
-        Logger = builder.Services.AddLogging(configure =>
-            {
-                configure.AddDebug();
-                configure.AddConsole();
-            })
-            .BuildServiceProvider()
-            .GetRequiredService<ILogger<MauiProgram>>();
-    }
+        // Configure NLog
+        var config = new LoggingConfiguration();
 
-    private static void RegisterDatabaseServices(IServiceCollection services, ILogger logger)
+        var consoleTarget = new ConsoleTarget("console")
+        {
+            Layout = @"${date:format=HH\:mm\:ss} ${logger} ${message} ${exception}"
+        };
+        config.AddTarget(consoleTarget);
+
+        config.AddRuleForAllLevels(consoleTarget); // All levels to console
+
+        LogManager.Configuration = config;
+        return LogManager.GetCurrentClassLogger();
+    }
+    private static void RegisterDatabaseServices(IServiceCollection services)
     {
         services.AddSingleton<DatabaseConnection>(provider =>
         {
             var databaseFolder = Path.Combine(FileSystem.AppDataDirectory, "Databases");
             Directory.CreateDirectory(databaseFolder);
             var databasePath = Path.Combine(databaseFolder, "localStorage.db");
+            _logger.Debug("Database path: {0}", databasePath);
 
 #if DEBUG
+            _logger.Info("Debug mode enabled. Deleting existing database file if it exists.");
             // Force overwrite in debug mode
             if (File.Exists(databasePath))
             {
@@ -74,23 +77,32 @@ public class MauiProgram
             // Check if the database file exists in the application's data directory
             if (!File.Exists(databasePath))
             {
-                // If the file doesn't exist, copy it from the embedded resource
-                using var stream = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("CompanionUI.Resources.localStorage.db");
+                try
+                {
+                    // If the file doesn't exist, copy it from the embedded resource
+                    using var stream = Assembly.GetExecutingAssembly()
+                        .GetManifestResourceStream("CompanionUI.Resources.localStorage.db");
+                    _logger.Info("Copying database file from embedded resources.");
 
-                using var fileStream = File.Create(databasePath);
-                stream.CopyTo(fileStream);
+                    _logger.Debug("stream is null: {0}", stream == null);
+
+                    using var fileStream = File.Create(databasePath);
+                    stream.CopyTo(fileStream);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Error copying database file from embedded resources.");
+                }
+                
             }
 
-            var logger = provider.GetRequiredService<ILogger<DatabaseConnection>>();
-            return new DatabaseConnection(databasePath, logger);
+            return new DatabaseConnection(databasePath, _logger);
         });
 
         services.AddSingleton<TraitRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
-            var logger = provider.GetRequiredService<ILogger<TraitRepository>>();
-            return new TraitRepository(databaseConnection, logger);
+            return new TraitRepository(databaseConnection, _logger);
         });
     }
 }

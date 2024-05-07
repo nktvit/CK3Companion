@@ -1,12 +1,12 @@
-using Microsoft.Extensions.Logging;
+using NLog;
 using SQLite;
 
 namespace CompanionData
 {
-    public class DatabaseConnection(string databasePath, ILogger<DatabaseConnection> logger) : IDisposable
+    public class DatabaseConnection(string databasePath, Logger logger) : IDisposable
     {
         private readonly SQLiteConnection _connection = new(databasePath);
-        private readonly ILogger<DatabaseConnection> _logger = logger;
+        private readonly Logger _logger = logger;
 
         public SQLiteConnection Connection => _connection;
 

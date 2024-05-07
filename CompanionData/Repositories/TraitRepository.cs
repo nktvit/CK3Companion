@@ -1,15 +1,18 @@
 using CompanionDomain.Interfaces;
 using CompanionDomain.Models;
-using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace CompanionData.Repositories;
 
-public class TraitRepository(DatabaseConnection databaseConnection, ILogger<TraitRepository> logger)
+public class TraitRepository(DatabaseConnection databaseConnection, Logger logger)
     : DataRepository<Trait>(databaseConnection, logger)
 {
     public IEnumerable<Trait> GetTraits()
     {
-        return GetAll();
+        var data = GetAll();
+        IEnumerable<Trait> traits = data.ToList();
+        logger.Info("Successfully retrieved {0} traits from the database.", traits.Count());
+        return traits;
     }
 
     public void SaveTrait(Trait trait)

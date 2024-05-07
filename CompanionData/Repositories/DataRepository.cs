@@ -1,14 +1,14 @@
 using System.Linq.Expressions;
-using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace CompanionData.Repositories;
 
 public class DataRepository<T> where T : new()
 {
     private readonly DatabaseConnection _databaseConnection;
-    private readonly ILogger<DataRepository<T>> _logger;
+    private readonly Logger _logger;
 
-    public DataRepository(DatabaseConnection databaseConnection, ILogger<DataRepository<T>> logger)
+    public DataRepository(DatabaseConnection databaseConnection, Logger logger)
     {
         _databaseConnection = databaseConnection;
         _logger = logger;
@@ -23,7 +23,7 @@ public class DataRepository<T> where T : new()
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error inserting data into the database.");
+            _logger.Error(ex, "Error inserting data into the database.");
         }
     }
 
@@ -37,7 +37,7 @@ public class DataRepository<T> where T : new()
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting data from the database.");
+            _logger.Error(ex, "Error getting data from the database.");
             return Enumerable.Empty<T>();
         }
     }

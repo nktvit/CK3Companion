@@ -1,11 +1,11 @@
 using CompanionDomain.Models;
-using Microsoft.Extensions.Logging;
+using NLog;
 
 namespace CompanionData.Repositories;
 
 public class SkillModifiersRepository : DataRepository<SkillModifier>
 {
-    public SkillModifiersRepository(DatabaseConnection databaseConnection, ILogger<SkillModifiersRepository> logger)
+    public SkillModifiersRepository(DatabaseConnection databaseConnection, Logger logger)
         : base(databaseConnection, logger)
     {
     }
