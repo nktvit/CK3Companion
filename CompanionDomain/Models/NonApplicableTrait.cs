@@ -1,23 +1,16 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using SQLite;
 
 namespace CompanionDomain.Models;
 
+[Table("NonApplicableTraits")]
 public class NonApplicableTrait
 {
-    [Key]
+    [PrimaryKey, AutoIncrement]
     public int Id { get; set; }
 
-    [Required]
+    [Indexed]
     public int TraitId { get; set; }
 
-    [Required]
+    [Indexed]
     public int OppositeTraitId { get; set; }
-
-    // Navigation Properties for Relationships with Trait
-    [ForeignKey("TraitId")]
-    public virtual Trait Trait { get; set; }
-
-    [ForeignKey("OppositeTraitId")]
-    public virtual Trait OppositeTrait { get; set; } 
 }

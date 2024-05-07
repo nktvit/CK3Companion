@@ -2,6 +2,7 @@ namespace CompanionDomain.Enums;
 
 public enum TraitType
 {
-    Education,
-    Lifestyle
+    Education = 0,
+    Lifestyle = 1,
+    Personality = 2,
 }

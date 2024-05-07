@@ -1,25 +1,16 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using CompanionDomain.Enums;
-using CompanionDomain.Interfaces;
+using SQLite;
 
 namespace CompanionDomain.Models;
 
-public class SkillModifier 
+[Table("SkillModifiers")]
+public class SkillModifier
 {
-    [Key]
-    public int Id { get; set; }
-
-    [Required]
-    [ForeignKey("TraitId")]
-
+    [Indexed]
     public int TraitId { get; set; }
 
-    [Required]
     public Skill Skill { get; set; }
 
-    [Required]
     public int Modifier { get; set; }
-
-    public Trait Trait { get; set; }
 }
