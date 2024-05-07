@@ -1,15 +1,12 @@
+using CompanionDomain.Enums;
 using CompanionDomain.Models;
 using NLog;
 
 namespace CompanionData.Repositories;
 
-public class SkillModifiersRepository : DataRepository<SkillModifier>
+public class SkillModifierRepository(DatabaseConnection databaseConnection, Logger logger)
+    : DataRepository<SkillModifier>(databaseConnection, logger)
 {
-    public SkillModifiersRepository(DatabaseConnection databaseConnection, Logger logger)
-        : base(databaseConnection, logger)
-    {
-    }
-    
     public IEnumerable<SkillModifier> GetTraitSkillModifiers(Trait trait)
     {
         return GetFiltered(x => x.TraitId == trait.Id);

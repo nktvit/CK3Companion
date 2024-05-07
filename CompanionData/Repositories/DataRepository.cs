@@ -41,6 +41,11 @@ public class DataRepository<T> where T : new()
             return Enumerable.Empty<T>();
         }
     }
+    
+    public T GetOne(Expression<Func<T, bool>> predicate)
+    {
+        return _databaseConnection.Connection.Table<T>().FirstOrDefault(predicate);
+    }
 
     public IEnumerable<T> GetFiltered(Expression<Func<T, bool>> predicate)
     {

@@ -14,6 +14,10 @@ public class TraitRepository(DatabaseConnection databaseConnection, Logger logge
         logger.Info("Successfully retrieved {0} traits from the database.", traits.Count());
         return traits;
     }
+    public Trait GetTraitById(int id)
+    {
+        return GetOne(x => x.Id == id);
+    }
 
     public void SaveTrait(Trait trait)
     {

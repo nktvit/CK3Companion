@@ -27,10 +27,10 @@ public class Trait : ITrait
     public int MaximumAge { get; set; }
 
     [Ignore]
-    public ICollection<NonApplicableTrait> NonApplicableTraits { get; set; }
+    public IEnumerable<NonApplicableTrait> NonApplicableTraits { get; set; }
 
     [Ignore]
-    public ICollection<SkillModifier> SkillModifiers { get; set; }
+    public IEnumerable<SkillModifier> SkillModifiers { get; set; }
 
     public Trait()
     {

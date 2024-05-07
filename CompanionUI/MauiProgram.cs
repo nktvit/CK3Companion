@@ -10,7 +10,7 @@ namespace CompanionUI;
 
 public class MauiProgram
 {
-    private static Logger _logger = ConfigureLogging();
+    private static readonly Logger Logger = ConfigureLogging();
     public static async Task<MauiApp> CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
@@ -29,7 +29,7 @@ public class MauiProgram
         var filePermission = await Permissions.RequestAsync<Permissions.StorageRead>();
         if (filePermission != PermissionStatus.Granted)
         {
-            _logger.Warn("File system permissions denied.");
+            Logger.Warn("File system permissions denied.");
             // Handle the permission denial or show an error message
             return builder.Build();
         }
@@ -63,10 +63,10 @@ public class MauiProgram
             var databaseFolder = Path.Combine(FileSystem.AppDataDirectory, "Databases");
             Directory.CreateDirectory(databaseFolder);
             var databasePath = Path.Combine(databaseFolder, "localStorage.db");
-            _logger.Debug("Database path: {0}", databasePath);
+            Logger.Debug("Database path: {0}", databasePath);
 
 #if DEBUG
-            _logger.Info("Debug mode enabled. Deleting existing database file if it exists.");
+            Logger.Info("Debug mode enabled. Deleting existing database file if it exists.");
             // Force overwrite in debug mode
             if (File.Exists(databasePath))
             {
@@ -82,27 +82,36 @@ public class MauiProgram
                     // If the file doesn't exist, copy it from the embedded resource
                     using var stream = Assembly.GetExecutingAssembly()
                         .GetManifestResourceStream("CompanionUI.Resources.localStorage.db");
-                    _logger.Info("Copying database file from embedded resources.");
+                    Logger.Info("Copying database file from embedded resources.");
 
-                    _logger.Debug("stream is null: {0}", stream == null);
+                    Logger.Debug("stream is null: {0}", stream == null);
 
                     using var fileStream = File.Create(databasePath);
                     stream.CopyTo(fileStream);
                 }
                 catch (Exception ex)
                 {
-                    _logger.Error(ex, "Error copying database file from embedded resources.");
+                    Logger.Error(ex, "Error copying database file from embedded resources.");
                 }
                 
             }
 
-            return new DatabaseConnection(databasePath, _logger);
+            return new DatabaseConnection(databasePath, Logger);
         });
 
         services.AddSingleton<TraitRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
-            return new TraitRepository(databaseConnection, _logger);
+            return new TraitRepository(databaseConnection, Logger);
+        });
+        services.AddSingleton<SkillModifierRepository>(provider =>
+        {
+            var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
+            return new SkillModifierRepository(databaseConnection, Logger);
+        });services.AddSingleton<NonApplicableTraitRepository>(provider =>
+        {
+            var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
+            return new NonApplicableTraitRepository(databaseConnection, Logger);
         });
     }
 }
