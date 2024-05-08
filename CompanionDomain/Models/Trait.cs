@@ -27,15 +27,13 @@ public class Trait : ITrait
     public int MaximumAge { get; set; }
 
     [Ignore]
-    public IEnumerable<NonApplicableTrait> NonApplicableTraits { get; set; }
+    public IEnumerable<NonApplicableTrait> NonApplicableTraits { get; set; } = new List<NonApplicableTrait>();
 
     [Ignore]
-    public IEnumerable<SkillModifier> SkillModifiers { get; set; }
+    public IEnumerable<SkillModifier> SkillModifiers { get; set; } = new List<SkillModifier>();
 
     public Trait()
     {
-        NonApplicableTraits = new List<NonApplicableTrait>();
-        SkillModifiers = new List<SkillModifier>();
     }
 
     public Trait(int id, string name, TraitType type, int designerCost = 0, int minimumAge = 0, int maximumAge = 0)

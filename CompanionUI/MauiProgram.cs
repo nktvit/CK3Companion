@@ -110,6 +110,7 @@ public class MauiProgram
             return new DatabaseConnection(databasePath, Logger);
         });
 
+        // Repositories registered as singletons
         services.AddSingleton<TraitRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
@@ -125,6 +126,12 @@ public class MauiProgram
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
             return new NonApplicableTraitRepository(databaseConnection, Logger);
         });
+        services.AddSingleton<CharacterRepository>(provider =>
+        {
+            var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
+            return new CharacterRepository(databaseConnection, Logger);
+        });
+        // Services registered as singletons
         services.AddSingleton<TraitService>(provider =>
         {
             var traitRepository = provider.GetRequiredService<TraitRepository>();

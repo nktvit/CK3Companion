@@ -1,4 +1,21 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/PencilsConfiguration/ActualSeverity/@EntryValue">WARNING</s:String>
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/CustomBuildToolPath/@EntryValue">/Users/nick-mba/.dotnet/sdk/8.0.203/MSBuild.dll</s:String>
-	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/DotNetCliExePath/@EntryValue">/Users/nick-mba/.dotnet/dotnet</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/Environment/Hierarchy/Build/BuildTool/DotNetCliExePath/@EntryValue">/Users/nick-mba/.dotnet/dotnet</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=134019fe_002Db0d6_002D40ce_002D9a1a_002Dccaa2a31934e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CharacterRepository_GetCharacters #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::513E0D67-C692-4EF1-992C-4E4980D02846::net8.0::CompanionTests.CharacterTests.CharacterRepository_GetCharacters&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::513E0D67-C692-4EF1-992C-4E4980D02846::net8.0::CompanionTests.CharacterTests.CharacterRepository_GetCharacterById&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=397140ad_002Db276_002D432b_002D8352_002D840850771a03/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="CharacterRepository_GetCharacters" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::513E0D67-C692-4EF1-992C-4E4980D02846::net8.0::CompanionTests.CharacterTests.CharacterRepository_GetCharacters&lt;/TestId&gt;
+    &lt;TestId&gt;NUnit3x::513E0D67-C692-4EF1-992C-4E4980D02846::net8.0::CompanionTests.CharacterTests.CharacterRepository_GetCharacterById&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=9f656cfb_002Dca33_002D40fe_002Da80c_002D523759881db0/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CharacterRepository_GetCharacterById" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;NUnit3x::513E0D67-C692-4EF1-992C-4E4980D02846::net8.0::CompanionTests.CharacterTests.CharacterRepository_GetCharacterById_Null&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
