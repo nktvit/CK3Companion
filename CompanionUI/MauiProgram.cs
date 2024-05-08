@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using CompanionData;
 using CompanionData.Repositories;
+using CompanionData.Services;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -11,6 +12,7 @@ namespace CompanionUI;
 public class MauiProgram
 {
     private static readonly Logger Logger = ConfigureLogging();
+
     public static async Task<MauiApp> CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
@@ -56,6 +58,7 @@ public class MauiProgram
         LogManager.Configuration = config;
         return LogManager.GetCurrentClassLogger();
     }
+
     private static void RegisterDatabaseServices(IServiceCollection services)
     {
         services.AddSingleton<DatabaseConnection>(provider =>
@@ -84,7 +87,7 @@ public class MauiProgram
                         .GetManifestResourceStream("CompanionUI.Resources.localStorage.db");
                     Logger.Info("Copying database file from embedded resources.");
 
-                    Logger.Debug("Assembly Name: {0}", Assembly.GetExecutingAssembly().FullName); 
+                    Logger.Debug("Assembly Name: {0}", Assembly.GetExecutingAssembly().FullName);
                     Logger.Debug("Resource Names:");
 
                     foreach (var name in Assembly.GetExecutingAssembly().GetManifestResourceNames())
@@ -102,7 +105,6 @@ public class MauiProgram
                 {
                     Logger.Error(ex, "Error copying database file from embedded resources.");
                 }
-                
             }
 
             return new DatabaseConnection(databasePath, Logger);
@@ -117,10 +119,18 @@ public class MauiProgram
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
             return new SkillModifierRepository(databaseConnection, Logger);
-        });services.AddSingleton<NonApplicableTraitRepository>(provider =>
+        });
+        services.AddSingleton<NonApplicableTraitRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
             return new NonApplicableTraitRepository(databaseConnection, Logger);
+        });
+        services.AddSingleton<TraitService>(provider =>
+        {
+            var traitRepository = provider.GetRequiredService<TraitRepository>();
+            var skillModifierRepository = provider.GetRequiredService<SkillModifierRepository>();
+            var nonApplicableTraitRepository = provider.GetRequiredService<NonApplicableTraitRepository>();
+            return new TraitService(traitRepository, skillModifierRepository, nonApplicableTraitRepository, Logger);
         });
     }
 }

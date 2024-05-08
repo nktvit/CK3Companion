@@ -1,9 +1,7 @@
 ﻿@page "/"
-@using CompanionData.Repositories
+@using CompanionData.Services
 @using CompanionDomain.Models
-@inject TraitRepository TraitRepository
-@inject SkillModifierRepository SkillModifierRepository
-@inject NonApplicableTraitRepository NonApplicableTraitRepository
+@inject TraitService TraitService
 
 <h1 class="text-blue-700 text-2xl mb-4">Companion Data</h1>
 
@@ -41,7 +39,7 @@
                         {
                             var oppositeTrait = _cachedTraits.ContainsKey(nonApplicableTrait.OppositeTraitId)
                                 ? _cachedTraits[nonApplicableTrait.OppositeTraitId]
-                                : TraitRepository.GetTraitById(nonApplicableTrait.OppositeTraitId);
+                                : TraitService.GetTraitById(nonApplicableTrait.OppositeTraitId);
 
                             if (!_cachedTraits.ContainsKey(nonApplicableTrait.OppositeTraitId))
                             {
@@ -67,27 +65,7 @@
 
     protected override void OnInitialized()
     {
-        try
-        {
-            Console.WriteLine("Starting to fetch traits...");
-            _traits = TraitRepository.GetTraits();
-            Console.WriteLine("Finished fetching traits.");
-
-            foreach (var trait in _traits)
-            {
-                Console.WriteLine($"Fetching skill modifiers for trait: {trait.Name}");
-                trait.SkillModifiers = SkillModifierRepository.GetTraitSkillModifiers(trait);
-
-                Console.WriteLine($"Fetching non-applicable traits for trait: {trait.Name}");
-                trait.NonApplicableTraits = NonApplicableTraitRepository.GetTraitNonApplicableTraits(trait);
-            }
-
-            Console.WriteLine("Finished fetching all data.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error fetching data: {ex.Message}");
-        }
+        _traits = TraitService.GetAllTraits();
     }
 
 }

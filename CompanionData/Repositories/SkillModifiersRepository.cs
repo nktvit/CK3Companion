@@ -7,11 +7,11 @@ namespace CompanionData.Repositories;
 public class SkillModifierRepository(DatabaseConnection databaseConnection, Logger logger)
     : DataRepository<SkillModifier>(databaseConnection, logger)
 {
-    public IEnumerable<SkillModifier> GetTraitSkillModifiers(Trait trait)
+    public IEnumerable<SkillModifier> GetTraitSkillModifiers(int traitId)
     {
         try
         {
-            return GetFiltered(x => x.TraitId == trait.Id);
+            return GetFiltered(x => x.TraitId == traitId);
         }
         catch (Exception ex)
         {
