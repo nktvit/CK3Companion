@@ -84,7 +84,16 @@ public class MauiProgram
                         .GetManifestResourceStream("CompanionUI.Resources.localStorage.db");
                     Logger.Info("Copying database file from embedded resources.");
 
-                    Logger.Debug("stream is null: {0}", stream == null);
+                    Logger.Debug("Assembly Name: {0}", Assembly.GetExecutingAssembly().FullName); 
+                    Logger.Debug("Resource Names:");
+
+                    foreach (var name in Assembly.GetExecutingAssembly().GetManifestResourceNames())
+                    {
+                        Logger.Debug("  Resource: {0}", name);
+                    }
+
+                    Logger.Debug("stream is null: {0}", stream == null); // Check if null
+
 
                     using var fileStream = File.Create(databasePath);
                     stream.CopyTo(fileStream);

@@ -7,13 +7,15 @@
 
 <h1 class="text-blue-700 text-2xl mb-4">Companion Data</h1>
 
-<div class="grid grid-cols-1 gap-4"> 
+<div class="grid grid-cols-1 gap-4">
     @foreach (var trait in _traits)
     {
         <div class="border rounded-md p-4">
+            <img class="block w-32" src="/images/traits_png/@(trait.Name).png" alt="">
+
             <h2 class="text-lg font-bold mb-2">@trait.Name</h2>
-        
-            <div> 
+
+            <div>
                 <h3 class="text-md font-medium mb-1">Skill Modifiers</h3>
                 @if (trait.SkillModifiers.Any())
                 {
@@ -38,15 +40,15 @@
                         @foreach (var nonApplicableTrait in trait.NonApplicableTraits)
                         {
                             var oppositeTrait = _cachedTraits.ContainsKey(nonApplicableTrait.OppositeTraitId)
-                                ? _cachedTraits[nonApplicableTrait.OppositeTraitId]  
+                                ? _cachedTraits[nonApplicableTrait.OppositeTraitId]
                                 : TraitRepository.GetTraitById(nonApplicableTrait.OppositeTraitId);
 
-                            if (!_cachedTraits.ContainsKey(nonApplicableTrait.OppositeTraitId)) 
-                            {    
+                            if (!_cachedTraits.ContainsKey(nonApplicableTrait.OppositeTraitId))
+                            {
                                 _cachedTraits[nonApplicableTrait.OppositeTraitId] = oppositeTrait;
                             }
 
-                            <li>@oppositeTrait.Name</li> 
+                            <li>@oppositeTrait.Name</li>
                         }
                     </ul>
                 }
@@ -55,27 +57,37 @@
                     <p>No non-applicable traits found.</p>
                 }
             </div>
-       </div> 
+        </div>
     }
 </div>
 
 @code {
     private IEnumerable<Trait> _traits = Enumerable.Empty<Trait>();
-    private Dictionary<int, Trait> _cachedTraits = new Dictionary<int, Trait>();
+    private Dictionary<int, Trait> _cachedTraits = new();
 
     protected override void OnInitialized()
     {
         try
         {
+            Console.WriteLine("Starting to fetch traits...");
             _traits = TraitRepository.GetTraits();
+            Console.WriteLine("Finished fetching traits.");
+
             foreach (var trait in _traits)
             {
+                Console.WriteLine($"Fetching skill modifiers for trait: {trait.Name}");
                 trait.SkillModifiers = SkillModifierRepository.GetTraitSkillModifiers(trait);
+
+                Console.WriteLine($"Fetching non-applicable traits for trait: {trait.Name}");
                 trait.NonApplicableTraits = NonApplicableTraitRepository.GetTraitNonApplicableTraits(trait);
             }
+
+            Console.WriteLine("Finished fetching all data.");
         }
         catch (Exception ex)
         {
+            Console.WriteLine($"Error fetching data: {ex.Message}");
         }
     }
+
 }

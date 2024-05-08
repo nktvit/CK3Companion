@@ -8,6 +8,16 @@ public class NonApplicableTraitRepository(DatabaseConnection databaseConnection,
 {
     public IEnumerable<NonApplicableTrait> GetTraitNonApplicableTraits(Trait trait)
     {
-        return GetFiltered(x => x.TraitId == trait.Id);
+        try
+        {
+            return GetFiltered(x => x.TraitId == trait.Id);
+
+        }
+        catch (Exception ex)
+        {
+            logger.Error(ex, "Error getting non-applicable traits from the database.");
+            return Enumerable.Empty<NonApplicableTrait>();
+
+        }
     }
 }
