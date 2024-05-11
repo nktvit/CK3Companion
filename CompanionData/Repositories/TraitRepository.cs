@@ -10,9 +10,7 @@ public class TraitRepository(DatabaseConnection databaseConnection, Logger logge
     public IEnumerable<Trait> GetTraits()
     {
         var data = GetAll();
-        IEnumerable<Trait> traits = data.ToList();
-        logger.Info("Successfully retrieved {0} traits from the database.", traits.Count());
-        return traits;
+        return data.ToList();
     }
     public Trait GetTraitById(int id)
     {

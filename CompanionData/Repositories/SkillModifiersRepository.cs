@@ -9,14 +9,6 @@ public class SkillModifierRepository(DatabaseConnection databaseConnection, Logg
 {
     public IEnumerable<SkillModifier> GetTraitSkillModifiers(int traitId)
     {
-        try
-        {
-            return GetFiltered(x => x.TraitId == traitId);
-        }
-        catch (Exception ex)
-        {
-            logger.Error(ex, "Error getting skill modifiers from the database.");
-            return Enumerable.Empty<SkillModifier>();
-        }
+        return GetFiltered(x => x.TraitId == traitId);
     }
 }

@@ -49,6 +49,14 @@ public class TraitService
 
     public Trait GetTraitById(int id)
     {
-        return _traitRepository.GetTraitById(id);
+        try
+        {
+            return _traitRepository.GetTraitById(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"Error fetching trait with id: {id}. Error: {ex.Message}");
+            return new Trait();
+        }
     }
 }

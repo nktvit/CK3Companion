@@ -25,7 +25,6 @@ public class SkillModifier
     private string SkillString { get; set; }
 
     // Public property with conversion logic
-    [Ignore]
     public Skill Skill 
     { 
         get => StringToSkillEnum(SkillString);

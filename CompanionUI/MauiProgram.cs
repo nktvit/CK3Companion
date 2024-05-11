@@ -139,5 +139,10 @@ public class MauiProgram
             var nonApplicableTraitRepository = provider.GetRequiredService<NonApplicableTraitRepository>();
             return new TraitService(traitRepository, skillModifierRepository, nonApplicableTraitRepository, Logger);
         });
+        services.AddSingleton<CharacterService>(provider =>
+        {
+            var characterRepository = provider.GetRequiredService<CharacterRepository>();
+            return new CharacterService(characterRepository, Logger);
+        });
     }
 }

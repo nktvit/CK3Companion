@@ -103,4 +103,12 @@ public class Character
             return (Gender)random.Next(2, 5); // Randomly selects from Homosexual (2), Bisexual (3) and Asexual (4)
         }
     }
+    public void AddTrait(Trait trait)
+    {
+        Traits.Add(trait);
+    }
+    public void RemoveTrait(Trait trait)
+    {
+        Traits.Remove(trait);
+    }
 }

@@ -17,30 +17,14 @@ public class DataRepository<T> where T : new()
 
     public IEnumerable<T> GetAll()
     {
-        try
-        {
-            var data = _databaseConnection.Connection.Table<T>();
-            Console.WriteLine(data.Count());
-            return data;
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Error getting data from the database.");
-            return Enumerable.Empty<T>();
-        }
+        var data = _databaseConnection.Connection.Table<T>();
+        Console.WriteLine(data.Count());
+        return data;
     }
 
     public T GetOne(Expression<Func<T, bool>> predicate)
     {
-        try
-        {
-            return _databaseConnection.Connection.Table<T>().FirstOrDefault(predicate);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Error getting data from the database.");
-            throw new Exception("Searched entity was not found.");
-        }
+        return _databaseConnection.Connection.Table<T>().FirstOrDefault(predicate);
     }
 
     public IEnumerable<T> GetFiltered(Expression<Func<T, bool>> predicate)
@@ -50,47 +34,21 @@ public class DataRepository<T> where T : new()
 
     public void InsertOne(T item)
     {
-        try
-        {
-            _databaseConnection.Connection.Insert(item);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Error inserting data into the database.");
-        }
+        _databaseConnection.Connection.Insert(item);
     }
 
-    public void Delete(T item)
+    public void DeleteOne(T item)
     {
-        try
-        {
-            _databaseConnection.Connection.Delete(item);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Error deleting data from the database.");
-        }
+        _databaseConnection.Connection.Delete(item);
     }
-    public void DeleteById(string id)
+
+    public void DeleteById(object id)
     {
-        try
-        {
-            _databaseConnection.Connection.Delete<T>(id);
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Error deleting data from the database.");
-        }
+        _databaseConnection.Connection.Delete<T>(id);
     }
+
     public void DeleteAll()
     {
-        try
-        {
-            _databaseConnection.Connection.DeleteAll<T>();
-        }
-        catch (Exception ex)
-        {
-            _logger.Error(ex, "Error deleting all data from the database.");
-        }
+        _databaseConnection.Connection.DeleteAll<T>();
     }
 }
