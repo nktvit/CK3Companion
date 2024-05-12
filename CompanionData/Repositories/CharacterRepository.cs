@@ -37,4 +37,9 @@ public class CharacterRepository(DatabaseConnection databaseConnection, Logger l
     {
         InsertOne(character);
     }
+    public void SaveCharacters(IEnumerable<Character> characters)
+    {
+        InsertAll(characters);
+    }
+
 }

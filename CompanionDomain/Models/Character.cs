@@ -105,7 +105,26 @@ public class Character
     }
     public void AddTrait(Trait trait)
     {
+        if (Traits.Contains(trait))
+        {
+            throw new ArgumentException("Trait already exists in the list.", nameof(trait)); 
+        }
+
         Traits.Add(trait);
+    }
+
+    public void AddTraits(IEnumerable<Trait> traits)
+    {
+        if (traits.Any(x => Traits.Contains(x)))
+        {
+            var duplicateTraits = traits.Where(x => Traits.Contains(x)).Select(x => x.Name);
+            throw new ArgumentException("One or more traits already exist in the list.", nameof(duplicateTraits));
+        }
+        Traits.AddRange(traits);
+    }
+    public void RemoveTraitById(int id)
+    {
+        Traits.RemoveAll(x => x.Id == id);
     }
     public void RemoveTrait(Trait trait)
     {

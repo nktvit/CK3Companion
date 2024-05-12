@@ -2,16 +2,14 @@
 using CompanionData;
 using CompanionData.Repositories;
 using CompanionData.Services;
+using CompanionDomain.Utilities;
 using NLog;
-using NLog.Config;
-using NLog.Targets;
-
 
 namespace CompanionUI;
 
 public class MauiProgram
 {
-    private static readonly Logger Logger = ConfigureLogging();
+    private static readonly Logger Logger = ULogging.ConfigureLogging();
 
     public static async Task<MauiApp> CreateMauiApp()
     {
@@ -41,24 +39,6 @@ public class MauiProgram
 
         return builder.Build();
     }
-
-    private static Logger ConfigureLogging()
-    {
-        // Configure NLog
-        var config = new LoggingConfiguration();
-
-        var consoleTarget = new ConsoleTarget("console")
-        {
-            Layout = @"${date:format=HH\:mm\:ss} ${logger} ${message} ${exception}"
-        };
-        config.AddTarget(consoleTarget);
-
-        config.AddRuleForAllLevels(consoleTarget); // All levels to console
-
-        LogManager.Configuration = config;
-        return LogManager.GetCurrentClassLogger();
-    }
-
     private static void RegisterDatabaseServices(IServiceCollection services)
     {
         services.AddSingleton<DatabaseConnection>(provider =>
@@ -131,6 +111,11 @@ public class MauiProgram
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
             return new CharacterRepository(databaseConnection, Logger);
         });
+        services.AddSingleton<CharacterTraitsRepository>(provider =>
+        {
+            var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
+            return new CharacterTraitsRepository(databaseConnection, Logger);
+        });
         // Services registered as singletons
         services.AddSingleton<TraitService>(provider =>
         {
@@ -142,7 +127,9 @@ public class MauiProgram
         services.AddSingleton<CharacterService>(provider =>
         {
             var characterRepository = provider.GetRequiredService<CharacterRepository>();
-            return new CharacterService(characterRepository, Logger);
+            var characterTraitsRepository = provider.GetRequiredService<CharacterTraitsRepository>();
+            var traitRepository = provider.GetRequiredService<TraitRepository>();
+            return new CharacterService(characterRepository, characterTraitsRepository, traitRepository, Logger);
         });
     }
 }

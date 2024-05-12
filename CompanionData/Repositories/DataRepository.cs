@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq.Expressions;
 using NLog;
+using SQLite;
 
 namespace CompanionData.Repositories;
 
@@ -32,9 +34,20 @@ public class DataRepository<T> where T : new()
         return _databaseConnection.Connection.Table<T>().Where(predicate);
     }
 
+    public IEnumerable<TJoined> GetJoinedEntities<TJoined>(string query, object parameters = null) where TJoined : new()
+    {
+        return _databaseConnection.Connection.Query<TJoined>(query, parameters);
+    }
+
+
     public void InsertOne(T item)
     {
         _databaseConnection.Connection.Insert(item);
+    }
+
+    public void InsertAll(IEnumerable<T> items)
+    {
+        _databaseConnection.Connection.InsertAll(items);
     }
 
     public void DeleteOne(T item)

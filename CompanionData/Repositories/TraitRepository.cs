@@ -16,6 +16,10 @@ public class TraitRepository(DatabaseConnection databaseConnection, Logger logge
     {
         return GetOne(x => x.Id == id);
     }
+    public IEnumerable<Trait> GetTraitsByIds(IEnumerable<int> ids)
+    {
+        return GetFiltered(x => ids.Contains(x.Id));
+    }
 
     public void SaveTrait(Trait trait)
     {
