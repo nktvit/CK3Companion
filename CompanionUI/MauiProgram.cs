@@ -87,34 +87,34 @@ public class MauiProgram
                 }
             }
 
-            return new DatabaseConnection(databasePath, Logger);
+            return new DatabaseConnection(databasePath);
         });
 
         // Repositories registered as singletons
         services.AddSingleton<TraitRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
-            return new TraitRepository(databaseConnection, Logger);
+            return new TraitRepository(databaseConnection);
         });
         services.AddSingleton<SkillModifierRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
-            return new SkillModifierRepository(databaseConnection, Logger);
+            return new SkillModifierRepository(databaseConnection);
         });
         services.AddSingleton<NonApplicableTraitRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
-            return new NonApplicableTraitRepository(databaseConnection, Logger);
+            return new NonApplicableTraitRepository(databaseConnection);
         });
         services.AddSingleton<CharacterRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
-            return new CharacterRepository(databaseConnection, Logger);
+            return new CharacterRepository(databaseConnection);
         });
         services.AddSingleton<CharacterTraitsRepository>(provider =>
         {
             var databaseConnection = provider.GetRequiredService<DatabaseConnection>();
-            return new CharacterTraitsRepository(databaseConnection, Logger);
+            return new CharacterTraitsRepository(databaseConnection);
         });
         // Services registered as singletons
         services.AddSingleton<TraitService>(provider =>

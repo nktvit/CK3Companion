@@ -17,25 +17,25 @@ public class TraitServiceTests
     [SetUp]
     public void Setup()
     {
-        var path = "/Users/nick-mba/Library/Containers/com.companyname.companionui/Data/Library/Databases";
+        const string path = "/Users/nick-mba/Library/Containers/com.companyname.companionui/Data/Library/Databases";
         var databaseFolder = Path.Combine(path);
         Directory.CreateDirectory(databaseFolder);
         _databasePath = Path.Combine(databaseFolder, "localStorage.db");
 
         _traitRepository =
-            new TraitRepository(new DatabaseConnection(_databasePath, _logger), _logger);
+            new TraitRepository(new DatabaseConnection(_databasePath));
         _skillModifierRepository =
-            new SkillModifierRepository(new DatabaseConnection(_databasePath, _logger), _logger);
+            new SkillModifierRepository(new DatabaseConnection(_databasePath));
         _nonApplicableTraitRepository =
-            new NonApplicableTraitRepository(new DatabaseConnection(_databasePath, _logger), _logger);
-        
-        _logger = ULogging.ConfigureLogging();
+            new NonApplicableTraitRepository(new DatabaseConnection(_databasePath));
     }
+
     [Test]
     public void TraitService_GetTraits()
     {
         // Arrange
-        TraitService traitService = new TraitService(_traitRepository, _skillModifierRepository, _nonApplicableTraitRepository, _logger);
+        TraitService traitService = new TraitService(_traitRepository, _skillModifierRepository,
+            _nonApplicableTraitRepository, _logger);
         // Act
         var traits = traitService.GetAllTraits();
         // Assert

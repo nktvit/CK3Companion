@@ -4,8 +4,8 @@ using NLog;
 
 namespace CompanionData.Repositories;
 
-public class CharacterTraitsRepository(DatabaseConnection databaseConnection, Logger logger)
-    : DataRepository<CharacterTrait>(databaseConnection, logger)
+public class CharacterTraitsRepository(DatabaseConnection databaseConnection)
+    : DataRepository<CharacterTrait>(databaseConnection)
 {
     public IEnumerable<CharacterTrait> GetAllRecords()
     {

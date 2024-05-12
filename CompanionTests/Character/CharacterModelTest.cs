@@ -1,8 +1,6 @@
 using CompanionData;
 using CompanionData.Repositories;
 using CompanionDomain.Models;
-using CompanionDomain.Utilities;
-using NLog;
 
 namespace CompanionTests;
 
@@ -10,8 +8,6 @@ public class CharacterModelTest
 {
     private string _databasePath;
     private TraitRepository _traitRepository;
-    private Logger _logger;
-    
     [SetUp]
     public void Setup()
     {
@@ -21,15 +17,12 @@ public class CharacterModelTest
         _databasePath = Path.Combine(databaseFolder, "localStorage.db");
         
         _traitRepository =
-            new TraitRepository(new DatabaseConnection(_databasePath, _logger), _logger);
+            new TraitRepository(new DatabaseConnection(_databasePath));
 
         CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
+            new CharacterRepository(new DatabaseConnection(_databasePath));
 
         characterRepository.DeleteAllCharacters();
-
-        _logger = ULogging.ConfigureLogging();
-
     }
     
     [Test]

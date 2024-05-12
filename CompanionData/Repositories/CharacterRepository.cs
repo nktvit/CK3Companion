@@ -3,8 +3,8 @@ using NLog;
 
 namespace CompanionData.Repositories;
 
-public class CharacterRepository(DatabaseConnection databaseConnection, Logger logger)
-    : DataRepository<Character>(databaseConnection, logger)
+public class CharacterRepository(DatabaseConnection databaseConnection)
+    : DataRepository<Character>(databaseConnection)
 {
     public IEnumerable<Character> GetCharacters()
     {

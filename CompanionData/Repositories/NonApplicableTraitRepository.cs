@@ -3,8 +3,8 @@ using NLog;
 
 namespace CompanionData.Repositories;
 
-public class NonApplicableTraitRepository(DatabaseConnection databaseConnection, Logger logger)
-    : DataRepository<NonApplicableTrait>(databaseConnection, logger)
+public class NonApplicableTraitRepository(DatabaseConnection databaseConnection)
+    : DataRepository<NonApplicableTrait>(databaseConnection)
 {
     public IEnumerable<NonApplicableTrait> GetTraitNonApplicableTraits(Trait trait)
     {

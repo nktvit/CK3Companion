@@ -2,16 +2,13 @@ using CompanionData;
 using CompanionData.ModelsDto;
 using CompanionData.Repositories;
 using CompanionDomain.Models;
-using CompanionDomain.Utilities;
-using NLog;
-
 
 namespace CompanionTests;
 
 public class CharacterRepositoryTests
 {
     private string _databasePath;
-    private Logger _logger;
+    private CharacterRepository _characterRepository;
 
     [SetUp]
     public void Setup()
@@ -21,24 +18,20 @@ public class CharacterRepositoryTests
         Directory.CreateDirectory(databaseFolder);
         _databasePath = Path.Combine(databaseFolder, "localStorage.db");
 
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
+        _characterRepository =
+            new CharacterRepository(new DatabaseConnection(_databasePath));
 
-        characterRepository.DeleteAllCharacters();
-
-        _logger = ULogging.ConfigureLogging();
+        _characterRepository.DeleteAllCharacters();
     }
 
     [Test]
     public void CharacterRepository_GetCharacters()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
-        characterRepository.InsertOne(new Character());
-        characterRepository.InsertOne(new Character());
+        _characterRepository.InsertOne(new Character());
+        _characterRepository.InsertOne(new Character());
         // Act
-        var characters = characterRepository.GetCharacters();
+        var characters = _characterRepository.GetCharacters();
         // Assert
         Assert.That(characters.Count(), Is.EqualTo(2));
     }
@@ -47,12 +40,10 @@ public class CharacterRepositoryTests
     public void CharacterRepository_GetCharacterById()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
         var character = new Character();
-        characterRepository.InsertOne(character);
+        _characterRepository.InsertOne(character);
         // Act
-        var retrievedCharacter = characterRepository.GetCharacterById(character.Id);
+        var retrievedCharacter = _characterRepository.GetCharacterById(character.Id);
         // Assert
         Assert.That(retrievedCharacter.Id, Is.EqualTo(character.Id));
     }
@@ -61,65 +52,55 @@ public class CharacterRepositoryTests
     public void CharacterRepository_DeleteCharacter()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
         var character = new Character();
-        characterRepository.InsertOne(character);
+        _characterRepository.InsertOne(character);
         // Act
-        characterRepository.DeleteCharacter(character);
+        _characterRepository.DeleteCharacter(character);
         // Assert
-        Assert.That(characterRepository.GetCharacters().Count(), Is.EqualTo(0));
+        Assert.That(_characterRepository.GetCharacters().Count(), Is.EqualTo(0));
     }
 
     [Test]
     public void CharacterRepository_DeleteCharacterById()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
         var character = new Character();
-        characterRepository.InsertOne(character);
+        _characterRepository.InsertOne(character);
         // Act
-        characterRepository.DeleteCharacterById(character.Id);
+        _characterRepository.DeleteCharacterById(character.Id);
         // Assert
-        Assert.That(characterRepository.GetCharacters().Count(), Is.EqualTo(0));
+        Assert.That(_characterRepository.GetCharacters().Count(), Is.EqualTo(0));
     }
 
     [Test]
     public void CharacterRepository_DeleteAllCharacters()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
-        characterRepository.InsertOne(new Character());
-        characterRepository.InsertOne(new Character());
+        _characterRepository.InsertOne(new Character());
+        _characterRepository.InsertOne(new Character());
         // Act
-        characterRepository.DeleteAllCharacters();
+        _characterRepository.DeleteAllCharacters();
         // Assert
-        Assert.That(characterRepository.GetCharacters().Count(), Is.EqualTo(0));
+        Assert.That(_characterRepository.GetCharacters().Count(), Is.EqualTo(0));
     }
 
     [Test]
     public void CharacterRepository_SaveCharacter()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
         var character = new Character();
         // Act
-        characterRepository.SaveCharacter(character);
+        _characterRepository.SaveCharacter(character);
         // Assert
-        Assert.That(characterRepository.GetCharacters().Count(), Is.EqualTo(1));
+        Assert.That(_characterRepository.GetCharacters().Count(), Is.EqualTo(1));
     }
 
     [Test]
     public void CharacterRepository_GetCharacters_Empty()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
         // Act
-        var characters = characterRepository.GetCharacters();
+        var characters = _characterRepository.GetCharacters();
         // Assert
         Assert.That(characters.Count(), Is.EqualTo(0));
     }
@@ -128,10 +109,8 @@ public class CharacterRepositoryTests
     public void CharacterRepository_GetCharacterById_Null()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
         // Act
-        var retrievedCharacter = characterRepository.GetCharacterById("1");
+        var retrievedCharacter = _characterRepository.GetCharacterById("1");
         // Assert
         Assert.That(retrievedCharacter, Is.Null);
     }
@@ -141,16 +120,14 @@ public class CharacterRepositoryTests
     public void CharacterRepository_GetCharacterTraits()
     {
         // Arrange
-        CharacterRepository characterRepository =
-            new CharacterRepository(new DatabaseConnection(_databasePath, _logger), _logger);
         TraitRepository traitRepository =
-            new TraitRepository(new DatabaseConnection(_databasePath, _logger), _logger);
+            new TraitRepository(new DatabaseConnection(_databasePath));
         CharacterTraitsRepository characterTraitsRepository =
-            new CharacterTraitsRepository(new DatabaseConnection(_databasePath, _logger), _logger);
+            new CharacterTraitsRepository(new DatabaseConnection(_databasePath));
         var character = new Character();
         var trait = traitRepository.GetTraitById(34);
         character.AddTrait(trait);
-        characterRepository.SaveCharacter(character);
+        _characterRepository.SaveCharacter(character);
         characterTraitsRepository.SaveCharacterTrait(new CharacterTrait
             { CharacterId = character.Id, TraitId = trait.Id });
         // Act

@@ -8,12 +8,10 @@ namespace CompanionData.Repositories;
 public class DataRepository<T> where T : new()
 {
     private readonly DatabaseConnection _databaseConnection;
-    private readonly Logger _logger;
 
-    public DataRepository(DatabaseConnection databaseConnection, Logger logger)
+    public DataRepository(DatabaseConnection databaseConnection)
     {
         _databaseConnection = databaseConnection;
-        _logger = logger;
         _databaseConnection.Connection.CreateTable<T>();
     }
 

@@ -4,8 +4,8 @@ using NLog;
 
 namespace CompanionData.Repositories;
 
-public class SkillModifierRepository(DatabaseConnection databaseConnection, Logger logger)
-    : DataRepository<SkillModifier>(databaseConnection, logger)
+public class SkillModifierRepository(DatabaseConnection databaseConnection)
+    : DataRepository<SkillModifier>(databaseConnection)
 {
     public IEnumerable<SkillModifier> GetTraitSkillModifiers(int traitId)
     {
