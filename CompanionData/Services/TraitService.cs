@@ -51,7 +51,10 @@ public class TraitService
     {
         try
         {
-            return _traitRepository.GetTraitById(id);
+            var trait =  _traitRepository.GetTraitById(id);
+            var skillModifiers = _skillModifierRepository.GetTraitSkillModifiers(id);
+            trait.SkillModifiers = skillModifiers;
+            return trait;
         }
         catch (Exception ex)
         {

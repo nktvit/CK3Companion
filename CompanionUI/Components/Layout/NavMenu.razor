@@ -1,4 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using CompanionData.Services
+@inject CharacterService CharacterService
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">CompanionUI</a>
     </div>
@@ -13,11 +16,16 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+        @foreach (var name in _names.OrderBy(n => n).ToList())
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="@($"/character/{name}")">
+                    <span class="bi bi-person-fill" aria-hidden="true"></span> @name
+                </NavLink>
+            </div>
+        }
+
+
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="weather">
                 <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
@@ -25,3 +33,14 @@
         </div>
     </nav>
 </div>
+
+@code {
+
+    private List<string> _names = new();
+
+    protected override void OnInitialized()
+    {
+        _names = CharacterService.GetCharactersNames();
+    }
+
+}

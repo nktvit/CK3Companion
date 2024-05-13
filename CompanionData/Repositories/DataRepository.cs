@@ -27,6 +27,15 @@ public class DataRepository<T> where T : new()
         return _databaseConnection.Connection.Table<T>().FirstOrDefault(predicate);
     }
 
+    public IEnumerable<TProperty> GetPropertyValues<TProperty>(Expression<Func<T, bool>> predicate,
+        Func<T, TProperty> propertySelector)
+    {
+        return _databaseConnection.Connection.Table<T>()
+            .Where(predicate.Compile()) // Compile the expression to a Func
+            .Select(propertySelector);
+    }
+
+
     public IEnumerable<T> GetFiltered(Expression<Func<T, bool>> predicate)
     {
         return _databaseConnection.Connection.Table<T>().Where(predicate);
@@ -36,7 +45,6 @@ public class DataRepository<T> where T : new()
     {
         return _databaseConnection.Connection.Query<TJoined>(query, parameters);
     }
-
 
     public void InsertOne(T item)
     {

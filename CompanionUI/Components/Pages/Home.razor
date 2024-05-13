@@ -1,71 +1,10 @@
 ﻿@page "/"
-@using CompanionData.Services
-@using CompanionDomain.Models
-@inject TraitService TraitService
 
 <h1 class="text-blue-700 text-2xl mb-4">Companion Data</h1>
 
-<div class="grid grid-cols-1 gap-4">
-    @foreach (var trait in _traits)
-    {
-        <div class="border rounded-md p-4">
-            <img class="block w-32" src="/images/traits_png/@(trait.Name).png" alt="">
-
-            <h2 class="text-lg font-bold mb-2">@trait.Name</h2>
-
-            <div>
-                <h3 class="text-md font-medium mb-1">Skill Modifiers</h3>
-                @if (trait.SkillModifiers.Any())
-                {
-                    <ul class="list-disc list-inside">
-                        @foreach (var skill in trait.SkillModifiers)
-                        {
-                            <li>@skill.Skill : @skill.Modifier</li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <p>No skill modifiers found.</p>
-                }
-            </div>
-
-            <div>
-                <h3 class="text-md font-medium mb-1">Non-Applicable Traits</h3>
-                @if (trait.NonApplicableTraits.Any())
-                {
-                    <ul class="list-disc list-inside">
-                        @foreach (var nonApplicableTrait in trait.NonApplicableTraits)
-                        {
-                            var oppositeTrait = _cachedTraits.ContainsKey(nonApplicableTrait.OppositeTraitId)
-                                ? _cachedTraits[nonApplicableTrait.OppositeTraitId]
-                                : TraitService.GetTraitById(nonApplicableTrait.OppositeTraitId);
-
-                            if (!_cachedTraits.ContainsKey(nonApplicableTrait.OppositeTraitId))
-                            {
-                                _cachedTraits[nonApplicableTrait.OppositeTraitId] = oppositeTrait;
-                            }
-
-                            <li>@oppositeTrait.Name</li>
-                        }
-                    </ul>
-                }
-                else
-                {
-                    <p>No non-applicable traits found.</p>
-                }
-            </div>
-        </div>
-    }
-</div>
+<Traits></Traits>
 
 @code {
-    private IEnumerable<Trait> _traits = Enumerable.Empty<Trait>();
-    private Dictionary<int, Trait> _cachedTraits = new();
 
-    protected override void OnInitialized()
-    {
-        _traits = TraitService.GetAllTraits();
-    }
 
 }

@@ -44,6 +44,26 @@ public class CharacterService
         }
     }
 
+    public List<string> GetCharactersNames()
+    {
+        try
+        {
+            _logger.Info("Starting to fetch characters names...");
+            // Get the names of all characters
+            var characterNames = _characterRepository.GetCharacterPropertyValues<string>(c => c.Name);
+            foreach (var name in characterNames)
+            {
+                _logger.Info($"Character name: {name}");
+            }
+            return characterNames;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"Error fetching data: {ex.Message}");
+            return new List<string>();
+        }
+    }
+
     public Character GetCharacterById(string id)
     {
         try
@@ -61,6 +81,7 @@ public class CharacterService
             return new Character();
         }
     }
+
     public void SaveCharacter(Character character)
     {
         try
@@ -131,7 +152,6 @@ public class CharacterService
                 _characterRepository.DeleteAllCharacters();
             }
             else _logger.Warn("No characters to delete.");
-               
         }
         catch (Exception ex)
         {

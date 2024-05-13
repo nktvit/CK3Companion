@@ -21,7 +21,7 @@ public class SkillModifier
     public int TraitId { get; set; }
 
     // Internal store for database representation
-    [Column("Skill")] // Ensure this maps to the correct column
+    [Column("Skill")]
     private string SkillString { get; set; }
 
     // Public property with conversion logic

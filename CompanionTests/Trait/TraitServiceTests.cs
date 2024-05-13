@@ -11,6 +11,7 @@ public class TraitServiceTests
     private NonApplicableTraitRepository _nonApplicableTraitRepository;
     private SkillModifierRepository _skillModifierRepository;
     private TraitRepository _traitRepository;
+    private TraitService _traitService;
     private Logger _logger;
     private string _databasePath;
 
@@ -28,16 +29,18 @@ public class TraitServiceTests
             new SkillModifierRepository(new DatabaseConnection(_databasePath));
         _nonApplicableTraitRepository =
             new NonApplicableTraitRepository(new DatabaseConnection(_databasePath));
+        _logger = ULogging.ConfigureLogging();
+        _traitService = new TraitService(_traitRepository, _skillModifierRepository,
+            _nonApplicableTraitRepository, _logger);
     }
 
     [Test]
     public void TraitService_GetTraits()
     {
         // Arrange
-        TraitService traitService = new TraitService(_traitRepository, _skillModifierRepository,
-            _nonApplicableTraitRepository, _logger);
+
         // Act
-        var traits = traitService.GetAllTraits();
+        var traits = _traitService.GetAllTraits();
         // Assert
         Assert.That(traits, Is.Not.Null);
         Assert.That(traits.Count(), Is.EqualTo(61));

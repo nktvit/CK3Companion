@@ -2,6 +2,7 @@ using CompanionData;
 using CompanionData.Repositories;
 using CompanionData.Services;
 using CompanionDomain.Models;
+using CompanionDomain.Utilities;
 using NLog;
 
 namespace CompanionTests;
@@ -11,6 +12,7 @@ public class CharacterServiceTest
     private CharacterRepository _characterRepository;
     private CharacterTraitsRepository _characterTraitsRepository;
     private TraitRepository _traitRepository;
+    private CharacterService _characterService;
     private Logger _logger;
     private string _databasePath;
 
@@ -22,12 +24,15 @@ public class CharacterServiceTest
         Directory.CreateDirectory(databaseFolder);
         _databasePath = Path.Combine(databaseFolder, "localStorage.db");
 
+        _logger = ULogging.ConfigureLogging();
         _characterRepository =
             new CharacterRepository(new DatabaseConnection(_databasePath));
         _characterTraitsRepository =
             new CharacterTraitsRepository(new DatabaseConnection(_databasePath));
         _traitRepository =
             new TraitRepository(new DatabaseConnection(_databasePath));
+        _characterService =
+            new CharacterService(_characterRepository, _characterTraitsRepository, _traitRepository, _logger);
 
         _characterRepository.DeleteAllCharacters();
     }
@@ -36,12 +41,13 @@ public class CharacterServiceTest
     public void CharacterService_GetCharacters()
     {
         // Arrange
-        var characterService = new CharacterService(_characterRepository, _characterTraitsRepository, _traitRepository, _logger);
-        characterService.SaveCharacter(new Character());
-        characterService.SaveCharacter(new Character());
+        _characterService.SaveCharacter(new Character());
+        _characterService.SaveCharacter(new Character());
         // Act
-        var characters = characterService.GetAllCharacters();
+        var characters = _characterService.GetAllCharacters();
         // Assert
-        Assert.That(characters.Count(), Is.EqualTo(2));
+        Assert.That (characters.Count(), Is.EqualTo(2));
     }
+    // [Test]
+    // public void CharacterService_ApplyTrait()
 }

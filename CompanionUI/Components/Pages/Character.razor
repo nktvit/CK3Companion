@@ -1,0 +1,11 @@
+@page "/character/{name}"
+<h3>Character</h3>
+
+@code {
+    [Parameter] public string Name { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        Console.WriteLine($"Character page loaded for {Name}");
+    }
+}

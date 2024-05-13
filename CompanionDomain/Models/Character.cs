@@ -65,7 +65,7 @@ public class Character
     public int CustomizationPoints { get; set; }
 
     [Ignore]
-    public SkillSet Skills { get; set; } = new();
+    private SkillSet Skills { get; set; } = new();
 
     [Ignore]
     public List<Trait> Traits { get; set; } = new();
@@ -103,6 +103,10 @@ public class Character
             return (Gender)random.Next(2, 5); // Randomly selects from Homosexual (2), Bisexual (3) and Asexual (4)
         }
     }
+    public int GetSkillValue(Skill skill)
+    {
+        return Skills.GetSkillValue(skill);
+    }
     public void AddTrait(Trait trait)
     {
         if (Traits.Contains(trait))
@@ -111,6 +115,8 @@ public class Character
         }
 
         Traits.Add(trait);
+        Skills.AddTraitModifiers(trait.SkillModifiers);
+        
     }
 
     public void AddTraits(IEnumerable<Trait> traits)
@@ -121,13 +127,24 @@ public class Character
             throw new ArgumentException("One or more traits already exist in the list.", nameof(duplicateTraits));
         }
         Traits.AddRange(traits);
+        Skills.AddTraitModifiers(traits.SelectMany(x => x.SkillModifiers));
     }
-    public void RemoveTraitById(int id)
+    
+    public void RemoveTraitById(int traidId)
     {
-        Traits.RemoveAll(x => x.Id == id);
+        // Remove trait from list
+        Traits.RemoveAll(x => x.Id == traidId);
+        // Remove trait modifiers from skills
+        Skills.RemoveAllModifiersForTrait(traidId);
     }
     public void RemoveTrait(Trait trait)
     {
         Traits.Remove(trait);
+        Skills.RemoveAllModifiersForTrait(trait.Id);
+    }
+    public void RemoveAllTraits()
+    {
+        Traits.Clear();
+        Skills.RemoveAllTraitModifiers();
     }
 }
