@@ -1,5 +1,6 @@
 using CompanionDomain.Enums;
 using CompanionDomain.Interfaces;
+using CompanionDomain.Models.Records;
 using SQLite;
 
 namespace CompanionDomain.Models;
@@ -27,15 +28,13 @@ public class Trait : ITrait
     public int MaximumAge { get; set; }
 
     [Ignore]
-    public IEnumerable<NonApplicableTrait> NonApplicableTraits { get; set; }
+    public IEnumerable<NonApplicableTrait> NonApplicableTraits { get; set; } = new List<NonApplicableTrait>();
 
     [Ignore]
-    public IEnumerable<SkillModifier> SkillModifiers { get; set; }
+    public IEnumerable<SkillModifier> SkillModifiers { get; set; } = new List<SkillModifier>();
 
     public Trait()
     {
-        NonApplicableTraits = new List<NonApplicableTrait>();
-        SkillModifiers = new List<SkillModifier>();
     }
 
     public Trait(int id, string name, TraitType type, int designerCost = 0, int minimumAge = 0, int maximumAge = 0)
@@ -48,5 +47,14 @@ public class Trait : ITrait
         MaximumAge = maximumAge;
         NonApplicableTraits = new List<NonApplicableTrait>();
         SkillModifiers = new List<SkillModifier>();
+    }
+    
+    public IEnumerable<TraitModifierRecord> GetTraitModifiersRecords()
+    {
+        return SkillModifiers.Select(sm => new TraitModifierRecord(sm.TraitId, sm.Modifier, sm.Skill ));
+    }
+    public IEnumerable<SkillModifier> GetSkillModifiers()
+    {
+        return SkillModifiers;
     }
 }

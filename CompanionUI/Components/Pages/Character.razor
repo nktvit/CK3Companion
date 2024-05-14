@@ -1,0 +1,92 @@
+@page "/character/{CharacterId}"
+@using CompanionData.Services
+@inject CharacterService CharacterService
+@inject TraitService TraitService
+@inject NavigationManager NavigationManager
+
+<div class="flex flex-col items-center p-8">
+
+    <div class="grid grid-cols-3 w-full py-4 items-center">
+        <div class="flex justify-items-end">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white text-center font-bold py-2 px-3 w-20 rounded mr-2">Edit</button>
+            <button class="bg-red-500 hover:bg-red-700 text-white text-center font-bold py-2 px-3 w-20 rounded" @onclick="DeleteCharacter">Delete</button>
+        </div>
+
+        <div class="text-center">
+            <h3 class="text-3xl font-bold">Character</h3>
+        </div>
+
+        <div></div>
+    </div>
+
+
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-3xl">
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <h4 class="text-xl font-bold mb-2">Name</h4>
+                <p class="text-gray-700">@_character.Name</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-2">Nickname</h4>
+                <p class="text-gray-700">@_character.Nickname</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-2">Sex</h4>
+                <p class="text-gray-700">@_character.Sex</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-2">Gender</h4>
+                <p class="text-gray-700">@_character.Gender</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-2">Age</h4>
+                <p class="text-gray-700">@_character.Age</p>
+            </div>
+            <div>
+                <h4 class="text-xl font-bold mb-2">Weight</h4>
+                <p class="text-gray-700">@_character.Weight</p>
+            </div>
+        </div>
+
+        <div class="mt-8">
+            <h4 class="text-xl font-bold mb-2">Traits</h4>
+            <ul class="flex flex-row">
+                @foreach (var trait in _character.Traits)
+                {
+                    <TraitComponent Trait="@trait" Size="@(20)"></TraitComponent>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string CharacterId { get; set; }
+    CompanionDomain.Models.Character _character;
+
+    private void UpdateCharacter()
+    {
+        _character = CharacterService.GetCharacterById(CharacterId);
+        var traits = _character.Traits;
+        foreach(var trait in traits)
+        {
+            var traitWithModifiers = TraitService.GetTraitById(trait.Id);
+            trait.SkillModifiers = traitWithModifiers.SkillModifiers;
+        }
+        _character.Traits = traits;
+        StateHasChanged();
+    }
+    private void DeleteCharacter()
+    {
+        CharacterService.DeleteCharacter(_character);
+        NavigationManager.NavigateTo("/");
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine($"Character page loaded for {CharacterId}");
+        UpdateCharacter();
+    }
+
+
+}
