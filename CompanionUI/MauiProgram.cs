@@ -16,13 +16,11 @@ public class MauiProgram
         var builder = MauiApp.CreateBuilder();
         builder
             .UseMauiApp<App>()
+            //todo: add fonts
             .ConfigureFonts(fonts => { fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"); });
 
         builder.Services.AddMauiBlazorWebView();
-
-#if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
-#endif
 
 
         // Request file system permissions
@@ -39,6 +37,7 @@ public class MauiProgram
 
         return builder.Build();
     }
+
     private static void RegisterDatabaseServices(IServiceCollection services)
     {
         services.AddSingleton<DatabaseConnection>(provider =>
@@ -48,14 +47,11 @@ public class MauiProgram
             var databasePath = Path.Combine(databaseFolder, "localStorage.db");
             Logger.Debug("Database path: {0}", databasePath);
 
-#if DEBUG
-            Logger.Info("Debug mode enabled. Deleting existing database file if it exists.");
-            // Force overwrite in debug mode
-            if (File.Exists(databasePath))
-            {
-                File.Delete(databasePath);
-            }
-#endif
+            //     Logger.Info("Deleting existing database file if it exists.");
+            //     if (File.Exists(databasePath))
+            //     {
+            //         File.Delete(databasePath);
+            //     }
 
             // Check if the database file exists in the application's data directory
             if (!File.Exists(databasePath))

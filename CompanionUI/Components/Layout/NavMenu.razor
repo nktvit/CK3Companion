@@ -1,9 +1,10 @@
 ﻿@using CompanionData.Services
+@using CompanionDomain.Models
 @inject CharacterService CharacterService
 
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">CompanionUI</a>
+        <a class="navbar-brand" href="">CK3 Ruler Designer</a>
     </div>
 </div>
 
@@ -16,31 +17,34 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
-        @foreach (var name in _names.OrderBy(n => n).ToList())
+        @if (_characters != null)
         {
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="@($"/character/{name}")">
-                    <span class="bi bi-person-fill" aria-hidden="true"></span> @name
-                </NavLink>
-            </div>
+            @foreach (var character in _characters)
+            {
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="@($"/character/{character.Id}")">
+                        <span class="bi bi-person-fill" aria-hidden="true"></span> @character.Name
+                    </NavLink>
+                </div>
+            }
         }
-
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
     </nav>
 </div>
 
 @code {
 
-    private List<string> _names = new();
+    private IEnumerable<Character> _characters;
 
     protected override void OnInitialized()
     {
-        _names = CharacterService.GetCharactersNames();
+        _characters = CharacterService.GetAllCharacters();
+
+        CharacterService.CharactersChanged += (sender, args) =>
+        {
+            _characters = CharacterService.GetAllCharacters();
+            InvokeAsync(StateHasChanged); // Ensure re-render on UI thread
+        };
     }
+
 
 }

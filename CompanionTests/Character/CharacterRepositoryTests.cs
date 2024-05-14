@@ -53,11 +53,13 @@ public class CharacterRepositoryTests
     {
         // Arrange
         var character = new Character();
+        var character1 = new Character();
         _characterRepository.InsertOne(character);
+        _characterRepository.InsertOne(character1);
         // Act
         _characterRepository.DeleteCharacter(character);
         // Assert
-        Assert.That(_characterRepository.GetCharacters().Count(), Is.EqualTo(0));
+        Assert.That(_characterRepository.GetCharacters().Count(), Is.EqualTo(1));
     }
 
     [Test]

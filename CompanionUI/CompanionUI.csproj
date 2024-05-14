@@ -449,9 +449,7 @@
       <BundleResource Include="package-lock.json">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </BundleResource>
-      <EmbeddedResource Include="Resources\localStorage.db">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </EmbeddedResource>
+      <EmbeddedResource Include="Resources\localStorage.db" />
     </ItemGroup>
 
     <ItemGroup>

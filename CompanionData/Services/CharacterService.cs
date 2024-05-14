@@ -20,6 +20,7 @@ public class CharacterService
         _traitRepository = traitRepository;
         _logger = logger;
     }
+    public event EventHandler CharactersChanged;
 
     public IEnumerable<Character> GetAllCharacters()
     {
@@ -122,6 +123,7 @@ public class CharacterService
         {
             _logger.Info($"Deleting character with id: {character.Id}");
             _characterRepository.DeleteCharacter(character);
+            CharactersChanged?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception ex)
         {
