@@ -52,14 +52,31 @@ public class TraitService
         try
         {
             var trait =  _traitRepository.GetTraitById(id);
-            var skillModifiers = _skillModifierRepository.GetTraitSkillModifiers(id);
-            trait.SkillModifiers = skillModifiers;
+            trait.SkillModifiers = _skillModifierRepository.GetTraitSkillModifiers(id);
             return trait;
         }
         catch (Exception ex)
         {
             _logger.Error($"Error fetching trait with id: {id}. Error: {ex.Message}");
             return new Trait();
+        }
+    }
+    public IEnumerable<Trait> GetTraitsByIds(IEnumerable<int> ids)
+    {
+        try
+        {
+            var traits = _traitRepository.GetTraitsByIds(ids);
+            foreach (var trait in traits)
+            {
+                trait.SkillModifiers = _skillModifierRepository.GetTraitSkillModifiers(trait.Id);
+                trait.NonApplicableTraits = _nonApplicableTraitRepository.GetTraitNonApplicableTraits(trait);
+            }
+            return traits;
+        }
+        catch (Exception ex)
+        {
+            _logger.Error($"Error fetching traits with ids: {string.Join(",", ids)}. Error: {ex.Message}");
+            return Enumerable.Empty<Trait>();
         }
     }
 }

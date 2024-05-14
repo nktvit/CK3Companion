@@ -1,0 +1,15 @@
+.trait-container {
+    position: relative;
+}
+
+.trait-tooltip {
+    position: absolute;
+    background-color: #555454;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 10;
+    max-width: 250px;
+    top: calc(100% + 5px);
+    left: 0;
+}

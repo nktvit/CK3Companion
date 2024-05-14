@@ -23,11 +23,17 @@
             {
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="@($"/character/{character.Id}")">
-                        <span class="bi bi-person-fill" aria-hidden="true"></span> @character.Name
+                        <span class="" aria-hidden="true"></span> @character.Name
                     </NavLink>
                 </div>
             }
         }
+        <div class="border-t border-white my-4"></div>
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/AddCharacter">
+                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Create character
+            </NavLink>
+        </div>
     </nav>
 </div>
 

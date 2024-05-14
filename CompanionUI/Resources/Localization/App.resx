@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="education_intrigue_1" xml:space="preserve">
+        <value>Amateurish Plotter</value>
+    </data>
+    <data name="education_intrigue_2" xml:space="preserve">
+        <value>Flamboyant Trickster</value>
+    </data>
+    <data name="education_intrigue_3" xml:space="preserve">
+        <value>Intricate Webweaver</value>
+    </data>
+    <data name="education_intrigue_4" xml:space="preserve">
+        <value>Elusive Shadow</value>
+    </data>
+    <data name="education_intrigue_5" xml:space="preserve">
+        <value>Conniving Puppetmaster</value>
+    </data>
+    <data name="education_diplomacy_1" xml:space="preserve">
+        <value>Naive Appeaser</value>
+    </data>
+    <data name="education_diplomacy_2" xml:space="preserve">
+        <value>Adequate Bargainer</value>
+    </data>
+    <data name="education_diplomacy_3" xml:space="preserve">
+        <value>Charismatic Negotiator</value>
+    </data>
+    <data name="education_diplomacy_4" xml:space="preserve">
+        <value>Grey Eminence</value>
+    </data>
+    <data name="education_diplomacy_5" xml:space="preserve">
+        <value>Virtuoso Arbitrator</value>
+    </data>
+    <data name="education_stewardship_1" xml:space="preserve">
+        <value>Indulgent Wastrel</value>
+    </data>
+    <data name="education_stewardship_2" xml:space="preserve">
+        <value>Thrifty Clerk</value>
+    </data>
+    <data name="education_stewardship_3" xml:space="preserve">
+        <value>Fortune Builder</value>
+    </data>
+    <data name="education_stewardship_4" xml:space="preserve">
+        <value>Midas Touched</value>
+    </data>
+    <data name="education_stewardship_5" xml:space="preserve">
+        <value>Golden Sovereign</value>
+    </data>
+    <data name="education_martial_1" xml:space="preserve">
+        <value>Misguided Warrior</value>
+    </data>
+    <data name="education_martial_2" xml:space="preserve">
+        <value>Tough Soldier</value>
+    </data>
+    <data name="education_martial_3" xml:space="preserve">
+        <value>Skilled Tactician</value>
+    </data>
+    <data name="education_martial_4" xml:space="preserve">
+        <value>Brilliant Strategist</value>
+    </data>
+    <data name="education_martial_5" xml:space="preserve">
+        <value>Exalted Warlord</value>
+    </data>
+    <data name="education_learning_1" xml:space="preserve">
+        <value>Conscientious Scribe	</value>
+    </data>
+    <data name="education_learning_2" xml:space="preserve">
+        <value>Insightful Thinker</value>
+    </data>
+    <data name="education_learning_3" xml:space="preserve">
+        <value>Astute Intellectual</value>
+    </data>
+    <data name="education_learning_4" xml:space="preserve">
+        <value>Mastermind Philosopher</value>
+    </data>
+    <data name="education_learning_5" xml:space="preserve">
+        <value>Erudite Oracle</value>
+    </data>
+    <data name="lustful" xml:space="preserve">
+        <value>Lustful</value>
+    </data>
+    <data name="chaste" xml:space="preserve">
+        <value>Chaste</value>
+    </data>
+    <data name="WelcomeMessage" xml:space="preserve">
+        <value>Hi there</value>
+    </data>
+    <data name="gluttonous" xml:space="preserve">
+        <value>Gluttonous</value>
+    </data>
+    <data name="temperate" xml:space="preserve">
+        <value>Temperate</value>
+    </data>
+    <data name="greedy" xml:space="preserve">
+        <value>Greedy</value>
+    </data>
+    <data name="generous" xml:space="preserve">
+        <value>Generous</value>
+    </data>
+    <data name="lazy" xml:space="preserve">
+        <value>Lazy</value>
+    </data>
+    <data name="diligent" xml:space="preserve">
+        <value>Diligent</value>
+    </data>
+    <data name="wrathful" xml:space="preserve">
+        <value>Wrathful</value>
+    </data>
+    <data name="calm" xml:space="preserve">
+        <value>Calm</value>
+    </data>
+    <data name="patient" xml:space="preserve">
+        <value>Patient</value>
+    </data>
+    <data name="impatient" xml:space="preserve">
+        <value>Impatient</value>
+    </data>
+    <data name="arrogant" xml:space="preserve">
+        <value>Arrogant</value>
+    </data>
+    <data name="humble" xml:space="preserve">
+        <value>Humble</value>
+    </data>
+    <data name="deceitful" xml:space="preserve">
+        <value>Deceitful</value>
+    </data>
+    <data name="honest" xml:space="preserve">
+        <value>Honest</value>
+    </data>
+    <data name="craven" xml:space="preserve">
+        <value>Craven</value>
+    </data>
+    <data name="brave" xml:space="preserve">
+        <value>Brave</value>
+    </data>
+    <data name="shy" xml:space="preserve">
+        <value>Shy</value>
+    </data>
+    <data name="gregarious" xml:space="preserve">
+        <value>Gregarious</value>
+    </data>
+    <data name="ambitious" xml:space="preserve">
+        <value>Ambitious</value>
+    </data>
+    <data name="content" xml:space="preserve">
+        <value>Content</value>
+    </data>
+    <data name="arbitrary" xml:space="preserve">
+        <value>Arbitrary</value>
+    </data>
+    <data name="just" xml:space="preserve">
+        <value>Just</value>
+    </data>
+    <data name="cynical" xml:space="preserve">
+        <value>Cynical</value>
+    </data>
+    <data name="zealous" xml:space="preserve">
+        <value>Zealous</value>
+    </data>
+    <data name="paranoid" xml:space="preserve">
+        <value>Paranoid</value>
+    </data>
+    <data name="trusting" xml:space="preserve">
+        <value>Trusting</value>
+    </data>
+    <data name="compassionate" xml:space="preserve">
+        <value>Compassionate</value>
+    </data>
+    <data name="callous" xml:space="preserve">
+        <value>Callous</value>
+    </data>
+    <data name="sadistic" xml:space="preserve">
+        <value>Sadistic</value>
+    </data>
+    <data name="stubborn" xml:space="preserve">
+        <value>Stubborn</value>
+    </data>
+    <data name="fickle" xml:space="preserve">
+        <value>Fickle</value>
+    </data>
+    <data name="eccentric" xml:space="preserve">
+        <value>Eccentric</value>
+    </data>
+    <data name="vengeful" xml:space="preserve">
+        <value>Vengeful</value>
+    </data>
+</root>

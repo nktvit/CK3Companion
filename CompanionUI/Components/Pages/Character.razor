@@ -1,6 +1,7 @@
 @page "/character/{CharacterId}"
 @using CompanionData.Services
 @inject CharacterService CharacterService
+@inject TraitService TraitService
 @inject NavigationManager NavigationManager
 
 <div class="flex flex-col items-center p-8">
@@ -52,7 +53,7 @@
             <ul class="flex flex-row">
                 @foreach (var trait in _character.Traits)
                 {
-                    <TraitComponent TraitName="@trait.Name" Size="@(20)"></TraitComponent>
+                    <TraitComponent Trait="@trait" Size="@(20)"></TraitComponent>
                 }
             </ul>
         </div>
@@ -66,6 +67,13 @@
     private void UpdateCharacter()
     {
         _character = CharacterService.GetCharacterById(CharacterId);
+        var traits = _character.Traits;
+        foreach(var trait in traits)
+        {
+            var traitWithModifiers = TraitService.GetTraitById(trait.Id);
+            trait.SkillModifiers = traitWithModifiers.SkillModifiers;
+        }
+        _character.Traits = traits;
         StateHasChanged();
     }
     private void DeleteCharacter()

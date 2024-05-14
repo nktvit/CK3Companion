@@ -10,14 +10,17 @@ public class CharacterService
     private readonly CharacterRepository _characterRepository;
     private readonly CharacterTraitsRepository _characterTraitsRepository;
     private readonly TraitRepository _traitRepository;
+    private readonly SkillModifierRepository _skillModifierRepository;
+    private readonly TraitService _traitService;
     private readonly Logger _logger;
 
     public CharacterService(CharacterRepository characterRepository,
-        CharacterTraitsRepository characterTraitsRepository, TraitRepository traitRepository, Logger logger)
+        CharacterTraitsRepository characterTraitsRepository, TraitRepository traitRepository, TraitService traitService, Logger logger)
     {
         _characterRepository = characterRepository;
         _characterTraitsRepository = characterTraitsRepository;
         _traitRepository = traitRepository;
+        _traitService = traitService;
         _logger = logger;
     }
     public event EventHandler CharactersChanged;
@@ -72,7 +75,8 @@ public class CharacterService
             _logger.Info($"Fetching character with id: {id}");
             var character = _characterRepository.GetCharacterById(id);
             var traitsIds = _characterTraitsRepository.GetCharacterTraitsIdsByCharacterId(character.Id);
-            var traits = _traitRepository.GetTraitsByIds(traitsIds);
+            var traits = _traitService.GetTraitsByIds(traitsIds);
+            
             character.AddTraits(traits);
             return character;
         }

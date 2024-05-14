@@ -1,8 +1,13 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
+using System.Globalization;
 using CompanionData;
 using CompanionData.Repositories;
 using CompanionData.Services;
 using CompanionDomain.Utilities;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Localization;
+using Microsoft.AspNetCore.Localization;
 using NLog;
 
 namespace CompanionUI;
@@ -18,6 +23,19 @@ public class MauiProgram
             .UseMauiApp<App>()
             //todo: add fonts
             .ConfigureFonts(fonts => { fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"); });
+
+        // Configure localization services
+        builder.Services.AddLocalization(options =>
+        {
+            options.ResourcesPath = "Resources/Localization"; // Specify the path where resource files are located
+        });
+        var supportedCultures = new[] { "en-US", "fr-FR" };
+        builder.Services.Configure<RequestLocalizationOptions>(options =>
+        {
+            options.DefaultRequestCulture = new RequestCulture("en-US");
+            options.SupportedCultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
+            options.SupportedUICultures = supportedCultures.Select(c => new CultureInfo(c)).ToList();
+        });
 
         builder.Services.AddMauiBlazorWebView();
         builder.Services.AddBlazorWebViewDeveloperTools();
@@ -125,7 +143,9 @@ public class MauiProgram
             var characterRepository = provider.GetRequiredService<CharacterRepository>();
             var characterTraitsRepository = provider.GetRequiredService<CharacterTraitsRepository>();
             var traitRepository = provider.GetRequiredService<TraitRepository>();
-            return new CharacterService(characterRepository, characterTraitsRepository, traitRepository, Logger);
+            var traitService = provider.GetRequiredService<TraitService>();
+            return new CharacterService(characterRepository, characterTraitsRepository, traitRepository, traitService, Logger);
         });
+        services.AddScoped<IStringLocalizer, StringLocalizer<App>>();
     }
 }

@@ -1,6 +1,38 @@
+@using CompanionDomain.Models
 
-<img class="block w-@Size" src="/images/traits_png/@(TraitName).png" alt="">
+<div class="trait-container" @onmouseover="ShowTooltip" @onmouseout="HideTooltip">
+    <img class="block w-@Size" src="/images/traits_png/@(Trait.Name).png" alt="@Trait.Name"/>
+    @if (ShowTooltipContent)
+    {
+        <div class="trait-tooltip">
+            @if (Trait?.SkillModifiers != null && Trait.SkillModifiers.Any())
+            {
+                @foreach (var modifier in Trait.SkillModifiers)
+                {
+                    <div class="flex flex-row"><img class=" block w-6 mr-1" src="/images/icons/skills/@(modifier.Skill).png" /> @(modifier.Modifier > 0 ? "+" : "")@modifier.Modifier</div>
+                }
+            }
+            else
+            {
+                <div>No skill modifiers for this trait.</div>
+            }
+        </div>
+    }
+</div>
+
 @code {
-    [Parameter] public string TraitName { get; set; }
+    [Parameter] public Trait Trait { get; set; }
     [Parameter] public int Size { get; set; }
+
+    private bool ShowTooltipContent { get; set; } = false;
+
+    private void ShowTooltip()
+    {
+        ShowTooltipContent = true;
+    }
+
+    private void HideTooltip()
+    {
+        ShowTooltipContent = false;
+    }
 }

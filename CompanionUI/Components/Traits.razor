@@ -1,13 +1,15 @@
 @using CompanionData.Services
 @using CompanionDomain.Models
+@using Microsoft.Extensions.Localization
 @inject TraitService TraitService
+@inject IStringLocalizer<App> Localizer;
 
 <div class="grid grid-cols-1 gap-y-0.5 w-full">
     @foreach (var trait in _traits)
     {
         <div class="flex flex-row items-center border py-3 px-2">
-            <TraitComponent TraitName="@trait.Name" Size="@(16)"></TraitComponent>
-            <span class="ml-2 text-lg font-bold flex-grow">@trait.Name</span>
+            <TraitComponent Trait="@trait" Size="@(16)"></TraitComponent>
+            <span class="ml-2 text-lg font-bold flex-grow">@Localizer[trait.Name]</span>
             <span class="text-gray-500 mr-2">@(trait.DesignerCost > 0 ? "+" : "")@trait.DesignerCost</span>
 
         </div>

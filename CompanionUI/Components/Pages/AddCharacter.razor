@@ -1,0 +1,77 @@
+@page "/AddCharacter"
+@using CompanionData.Services
+@using CompanionDomain.Enums
+@inject CharacterService CharacterService
+@inject NavigationManager NavigationManager
+
+<div class="container mx-auto mt-8 p-4 bg-white shadow-md rounded-lg">
+    <h2 class="text-2xl font-bold text-center mb-4">Add Character</h2>
+
+    <EditForm Model="@_newCharacter" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label for="Name" class="block text-gray-700 font-bold mb-2">Name:</label>
+                <InputText id="Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" @bind-Value="_newCharacter.Name" />
+                <ValidationMessage For="@(() => _newCharacter.Name)" class="text-red-500 text-xs italic" />
+            </div>
+
+            <div>
+                <label for="Nickname" class="block text-gray-700 font-bold mb-2">Nickname:</label>
+                <InputText id="Nickname" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" @bind-Value="_newCharacter.Nickname" />
+                <ValidationMessage For="@(() => _newCharacter.Nickname)" class="text-red-500 text-xs italic" />
+            </div>
+
+            <div>
+                <label for="Sex" class="block text-gray-700 font-bold mb-2">Sex:</label>
+                <InputSelect id="Sex" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" @bind-Value="_newCharacter.Sex">
+                    @foreach (var sexValue in Enum.GetValues(typeof(Sex)))
+                    {
+                    <option value="@sexValue">@sexValue</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => _newCharacter.Sex)" class="text-red-500 text-xs italic" />
+            </div>
+
+            <div>
+                <label for="Gender" class="block text-gray-700 font-bold mb-2">Gender:</label>
+                <InputSelect id="Gender" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" @bind-Value="_newCharacter.Gender">
+                    @foreach (var genderValue in Enum.GetValues(typeof(Gender)))
+                    {
+                    <option value="@genderValue">@genderValue</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(() => _newCharacter.Gender)" class="text-red-500 text-xs italic" />
+            </div>
+
+            <div>
+                <label for="Age" class="block text-gray-700 font-bold mb-2">Age:</label>
+                <InputNumber id="Age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" @bind-Value="_newCharacter.Age" />
+                <ValidationMessage For="@(() => _newCharacter.Age)" class="text-red-500 text-xs italic" />
+            </div>
+
+            <div>
+                <label for="Weight" class="block text-gray-700 font-bold mb-2">Weight:</label>
+                <InputNumber id="Weight" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" @bind-Value="_newCharacter.Weight" />
+                <ValidationMessage For="@(() => _newCharacter.Weight)" class="text-red-500 text-xs italic" />
+            </div>
+        </div>
+
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+            Create Character
+        </button>
+    </EditForm>
+</div>
+
+
+@code {
+    private CompanionDomain.Models.Character _newCharacter = new ();
+
+    private void HandleValidSubmit()
+    {
+        CharacterService.SaveCharacter(_newCharacter);
+        NavigationManager.NavigateTo($"/character/{_newCharacter.Id}");
+        StateHasChanged();
+    }
+}
